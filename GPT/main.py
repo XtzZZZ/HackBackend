@@ -14,7 +14,6 @@ def sendGPTRequest(image):
     #    "role": "user",
     #    "content": "Say this is a test",
     # }
-
     response = client.chat.completions.create(
         model="gpt-4o",
         messages=[
