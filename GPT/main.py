@@ -46,10 +46,9 @@ def process_image(image, ws):
     )
 
     for chunk in completion:
-        if "choices" in chunk and chunk["choices"]:
-            token = chunk["choices"][0]["delta"]["content"]
-            ws.send(json.dumps({"message": token}))
-
+        if len(chunk) > 0 and chunk[0] == 'choices':
+            ws.send(json.dumps({"message": chunk[1][0].message.content}))
+            
 
 if __name__ == "__main__":
     image_path = "../rad.jpg"
