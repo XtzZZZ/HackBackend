@@ -18,7 +18,7 @@ def encode_image(image_path):
         return base64.b64encode(image_file.read()).decode("utf-8")
 
 
-def process_image(image):
+def process_image(image, ws):
     client = OpenAI(
         base_url = "https://api.openai.com/v1/"
     )
@@ -44,12 +44,10 @@ def process_image(image):
         top_p=1
     )
 
-    response = ""
     for chunk in completion:
-        if len(chunk) > 0 and chunk[0] == 'choices':
-            response += chunk[1][0].message.content
-
-    return response
+        if "choices" in chunk and chunk["choices"]:
+            token = chunk["choices"][0]["delta"]["content"]
+            await ws.send(json.dumps({"message": token}))
 
 
 if __name__ == "__main__":

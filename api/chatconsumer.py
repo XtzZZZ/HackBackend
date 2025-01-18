@@ -14,15 +14,13 @@ class ChatConsumer(AsyncWebsocketConsumer):
         data = json.loads(text_data)
         base64_image = data["image"]  # Extract Base64 image data
 
-        resp = await self.process_with_gpt(base64_image)
-        await self.send(json.dumps({"message": resp}))
+        await self.process_with_gpt(base64_image, self)
 
     @staticmethod
     async def process_with_gpt(base64_image):
         """Call your external ChatGPT package to process the image."""
         try:
-            response = GPT.process_image(base64_image)
-            return response
+            return GPT.process_image(base64_image)
         except Exception as e:
             print(f"Error processing image with ChatGPT: {e}")
             return {"error": str(e)}
