@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-btgmn5=bkqkhc^ze1(8$tbygw0)n6orxhxg$fc=fpy#(_(9zq#
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["nearby-kassia-brickipedia-9f06bb5f.koyeb.app"]
 
 STATIC_URL = "/static/"
 
