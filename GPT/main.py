@@ -4,7 +4,8 @@ from openai import OpenAI
 
 
 # def sendGPTRequest(image, address: str):
-def sendGPTRequest(image):
+
+def process_image(image):
     assistant_id = "asst_gShRAai0FxG4sHmtfdlS87dx"
     client = OpenAI(api_key=os.environ.get("OPENAI_API_KEY"))
 
