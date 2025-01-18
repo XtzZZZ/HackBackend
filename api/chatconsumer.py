@@ -14,9 +14,6 @@ class ChatConsumer(AsyncWebsocketConsumer):
         data = json.loads(text_data)
         base64_image = data["image"]  # Extract Base64 image data
 
-        # Remove the "data:image/png;base64," prefix
-        base64_image = base64_image.split(",")[1]
-
         resp = await self.process_with_gpt(base64_image)
         await self.send(json.dumps({"message": resp}))
 
