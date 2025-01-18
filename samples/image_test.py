@@ -11,7 +11,7 @@ def encode_image(image_path):
 # Path to your image
 #image_path = "demo.jpeg"
 #image_path = "rijksmuseum.jpeg"
-image_path = "bsa.png"
+image_path = "bsa.jpg"
 #image_path = "bsa1.png"
 #image_path = "rijskmuseum1.png"
 
