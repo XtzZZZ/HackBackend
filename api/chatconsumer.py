@@ -28,7 +28,7 @@ class ChatConsumer(AsyncWebsocketConsumer):
             return response
         except Exception as e:
             print(f"Error processing image with ChatGPT: {e}")
-            return {"error": e}
+            return {"error": str(e)}
 
     async def disconnect(self, close_code):
         """Handle WebSocket disconnection."""
