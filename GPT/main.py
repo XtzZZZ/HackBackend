@@ -1,8 +1,11 @@
 import base64
-from openai import OpenAI, api_key
-import os
 
-from samples.image_test import base64_image
+from dotenv import load_dotenv
+from openai import OpenAI
+
+
+load_dotenv()
+
 
 def encode_image(image_path):
     with open(image_path, "rb") as image_file:
@@ -10,9 +13,7 @@ def encode_image(image_path):
 
 
 def process_image(image):
-    api_key = os.getenv("OPENAI_API_KEY")
     client = OpenAI(
-
         base_url = "https://api.openai.com/v1/"
     )
 
@@ -28,12 +29,13 @@ def process_image(image):
                     {"type": "text", "text": prompt},
                     {
                         "type": "image_url",
-                        "image_url": {"url": f"data:image/jpeg;base64,{base64_image}"},
+                        "image_url": {"url": f"data:image/jpeg;base64,{image}"},
                     },
                 ],
             }
         ],
-        temperature=0.5
+        temperature=0.9,
+        top_p=1
     )
 
     for chunk in completion:
@@ -42,6 +44,6 @@ def process_image(image):
 
 
 if __name__ == "__main__":
-    image_path = "../bsa.jpg"
+    image_path = "../rad.jpg"
     image = encode_image(image_path)
     process_image(image)
