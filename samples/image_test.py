@@ -46,6 +46,7 @@ def get_response():
         top_p=0.8,
         stream=True,
         stream_options={"include_usage": True},
+        temperature=0.1
     )
     for chunk in completion:
         if len(chunk.choices) > 0:
