@@ -15,6 +15,7 @@ class ChatConsumer(AsyncWebsocketConsumer):
         # Send response back to WebSocket client
         await self.send(json.dumps({"response": f"You said: {data['message']}"}))
 
+
     async def disconnect(self, close_code):
         """Handle WebSocket disconnection."""
         print(f"WebSocket closed with code {close_code}")
