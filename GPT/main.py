@@ -2,6 +2,12 @@ import base64
 
 from dotenv import load_dotenv
 from openai import OpenAI
+import os
+
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+
+# Construct the correct path to prompt.txt
+prompt_path = os.path.join(BASE_DIR, "prompt.txt")
 
 
 load_dotenv()
@@ -17,8 +23,8 @@ def process_image(image):
         base_url = "https://api.openai.com/v1/"
     )
 
-    file = open("prompt.txt", 'r')
-    prompt = file.read()
+    with open(prompt_path, 'r') as file:
+        prompt = file.read()
 
     completion = client.chat.completions.create(
         model="gpt-4o",
@@ -38,9 +44,12 @@ def process_image(image):
         top_p=1
     )
 
+    response = ""
     for chunk in completion:
         if len(chunk) > 0 and chunk[0] == 'choices':
-            print(chunk[1][0].message.content, end='')
+            response += chunk[1][0].message.content
+
+    return response
 
 
 if __name__ == "__main__":
