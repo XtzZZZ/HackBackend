@@ -11,7 +11,8 @@ def encode_image(image_path):
 # Path to your image
 #image_path = "demo.jpeg"
 #image_path = "rijksmuseum.jpeg"
-image_path = "bsa.jpg"
+# image_path = "../bsa.jpg"
+image_path = "../rad.jpg"
 #image_path = "bsa1.png"
 #image_path = "rijskmuseum1.png"
 
@@ -27,7 +28,7 @@ def get_response():
     )
     completion = client.chat.completions.create(
         model="Qwen/Qwen2-VL-7B-Instruct",
-        #model="Qwen/Qwen2-VL-72B-Instruct",
+        # model="Qwen/Qwen2-VL-72B-Instruct",
         messages=[
             {
                 "role": "user",
@@ -37,7 +38,7 @@ def get_response():
                         "type": "image_url",
                         "image_url": {"url": f"data:image/jpeg;base64,{base64_image}"},
                     },
-                    {"type": "text", "text": "Havenstraat 6, 1075 PR Amsterdam"},
+                    # {"type": "text", "text": "Havenstraat 6, 1075 PR Amsterdam"},
 
                 ],
             }
