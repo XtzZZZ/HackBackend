@@ -1,60 +1,49 @@
-import json
-import os
-import websocket
-from openai import OpenAI
-OPENAI_API_KEY = os.environ.get("OPENAI_API_KEY")
+import base64
 
-# url = "wss://api.openai.com/v1/realtime?model=gpt-4o-realtime-preview-2024-12-17"
-# headers = [
-#     "Authorization: Bearer " + OPENAI_API_KEY,
-#     "OpenAI-Beta: realtime=v1"
-# ]
-#
-# def on_open(ws):
-#     print("Connected to server.")
-#
-# def on_message(ws, message):
-#     data = json.loads(message)
-#     print("Received event:", json.dumps(data, indent=2))
-#
-# ws = websocket.WebSocketApp(
-#     url,
-#     header=headers,
-#     on_open=on_open,
-#     on_message=on_message,
-# )
-#
-# ws.run_forever()
-#
-# # def sendGPTRequest(image, address: str):
+from dotenv import load_dotenv
+from openai import OpenAI
+
+
+load_dotenv()
+
+
+def encode_image(image_path):
+    with open(image_path, "rb") as image_file:
+        return base64.b64encode(image_file.read()).decode("utf-8")
+
 
 def process_image(image):
-    assistant_id = "asst_gShRAai0FxG4sHmtfdlS87dx"
-    client = OpenAI(api_key=os.environ.get("OPENAI_API_KEY"))
+    client = OpenAI(
+        base_url = "https://api.openai.com/v1/"
+    )
 
-    thread = client.beta.threads.create()
+    file = open("prompt.txt", 'r')
+    prompt = file.read()
 
-    # message = {
-    #    "role": "user",
-    #    "content": "Say this is a test",
-    # }
-
-    response = client.chat.completions.create(
+    completion = client.chat.completions.create(
         model="gpt-4o",
         messages=[
             {
                 "role": "user",
                 "content": [
-                    {"type": "text", "text": "Describe image"},
+                    {"type": "text", "text": prompt},
                     {
                         "type": "image_url",
-                        "image_url": {"url": f"{image}"},
+                        "image_url": {"url": f"data:image/jpeg;base64,{image}"},
                     },
                 ],
             }
         ],
+        temperature=0.9,
+        top_p=1
     )
 
+    for chunk in completion:
+        if len(chunk) > 0 and chunk[0] == 'choices':
+            print(chunk[1][0].message.content, end='')
+
+
 if __name__ == "__main__":
-    pass
-    # sendGPTRequest("../bsa.jpg")
+    image_path = "../rad.jpg"
+    image = encode_image(image_path)
+    process_image(image)
