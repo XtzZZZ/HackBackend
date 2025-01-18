@@ -9,6 +9,7 @@ media
 .idea/
 .venv/
 
+
 # Backup files #
 *.bak
 
