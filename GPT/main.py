@@ -3,6 +3,7 @@ import base64
 from dotenv import load_dotenv
 from openai import OpenAI
 import os
+import json
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 
@@ -47,7 +48,7 @@ def process_image(image, ws):
     for chunk in completion:
         if "choices" in chunk and chunk["choices"]:
             token = chunk["choices"][0]["delta"]["content"]
-            await ws.send(json.dumps({"message": token}))
+            ws.send(json.dumps({"message": token}))
 
 
 if __name__ == "__main__":
