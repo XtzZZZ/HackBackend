@@ -7,18 +7,20 @@ class ChatConsumer(AsyncWebsocketConsumer):
     async def connect(self):
         """Handle a new WebSocket connection."""
         await self.accept()
+        await self.send(json.dumps({"status": "WebSocket connected!"}))
 
     async def receive(self, text_data):
         """Handle incoming messages from WebSocket."""
         data = json.loads(text_data)
         base64_image = data["image"]  # Extract Base64 image data
+        address = data["address"]  # Extract Base64 image data
 
         try:
-            await GPT.process_image(base64_image, self)
+            await GPT.process_image(self, base64_image, address)
             return {}
         except Exception as e:
             print(f"Error processing image with ChatGPT: {e}")
-            self.send(json.dumps({"message": {"error": str(e)}})) 
+            self.send(json.dumps({"error": {"error": str(e)}})) 
 
     async def disconnect(self, close_code):
         """Handle WebSocket disconnection."""
