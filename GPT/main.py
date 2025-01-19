@@ -13,21 +13,17 @@ prompt_path = os.path.join(BASE_DIR, "prompt.txt")
 
 load_dotenv()
 
+client = OpenAI()
 
 def encode_image(image_path):
     with open(image_path, "rb") as image_file:
         return base64.b64encode(image_file.read()).decode("utf-8")
 
-
 async def process_image(image, ws):
-    client = OpenAI(
-        base_url = "https://api.openai.com/v1/"
-    )
-
     with open(prompt_path, 'r') as file:
         prompt = file.read()
 
-    completion = client.chat.completions.create(
+    stream = client.chat.completions.create(
         model="gpt-4o",
         messages=[
             {
@@ -42,13 +38,12 @@ async def process_image(image, ws):
             }
         ],
         temperature=0.9,
-        top_p=1
+        top_p=1,
+        stream=True 
     )
 
-    for chunk in completion:
-        if len(chunk) > 0 and chunk[0] == 'choices':
-            await ws.send(json.dumps({"message": chunk[1][0].message.content}))
-            
+    for chunk in stream:
+        await ws.send(json.dumps({"message": chunk.choices[0].delta.content or ""}))
 
 if __name__ == "__main__":
     image_path = "../rad.jpg"
