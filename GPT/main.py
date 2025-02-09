@@ -50,6 +50,8 @@ async def process_image(ws, image, address):
     async for chunk in stream:
         await ws.send(json.dumps({"message": chunk.choices[0].delta.content or ""}))
 
+    await ws.send(json.dumps({"status": "speech_end"}))
+
 if __name__ == "__main__":
     image_path = "../rad.jpg"
     image = encode_image(image_path)

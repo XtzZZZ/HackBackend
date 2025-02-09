@@ -7,7 +7,7 @@ class ChatConsumer(AsyncWebsocketConsumer):
     async def connect(self):
         """Handle a new WebSocket connection."""
         await self.accept()
-        await self.send(json.dumps({"status": "WebSocket connected!"}))
+        await self.send(json.dumps({"status": "connected"}))
 
     async def receive(self, text_data):
         """Handle incoming messages from WebSocket."""
