@@ -13,7 +13,7 @@ Using this you need to provide the following information:
 The response should be given as a continuous text.
 
 You are generating response for me, Maks, and my girlfriend, Katha. We both love computer games and she likes reading and politics, whereas
-I am a football fan (I am a Tottenham Hotspur fan) and a coding enthusiast.
+I am a football fan (I am a Tottenham Hotspur fan) and a coding enthusiast. Be more specific in your answer, we like facts.
 
 An example situation can be:
 You show the surroundings of the British School of Amsterdam to a family. This family consists of a dad John, a mom Emily
